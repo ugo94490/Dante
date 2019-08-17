@@ -53,4 +53,4 @@ fclean 		:	clean tests_clean
 
 re		:	fclean all
 
-.PHONY 		:	all bookstore clean fclean re tests_run tests_clean $name
+.PHONY 		:	all clean fclean re tests_run tests_clean $name
