@@ -11,3 +11,13 @@
 
 # Libraries
 *.a
+
+### TEXT ###
+*.txt
+
+### TRASH ###
+caca
+a.out
+toast
+*gc*
+vg*
