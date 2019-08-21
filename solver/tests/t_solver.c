@@ -6,44 +6,51 @@
 */
 
 #include <criterion/criterion.h>
+#include <criterion/redirect.h>
 #include "solver.h"
 
-Test (SOLVER, no_exit_map)
+static void redirect_all_std(void)
+{
+    cr_redirect_stdout();
+    cr_redirect_stderr();
+}
+
+Test (SOLVER, no_exit_map, .init=redirect_all_std)
 {
     ctrl_t *control = create_ctrl("tests/ressources/g_no_end_map.txt");
 
     cr_assert_eq(solver(control), 1);
 }
 
-Test (SOLVER, one_line_map)
+Test (SOLVER, one_line_map, .init=redirect_all_std)
 {
     ctrl_t *control = create_ctrl("tests/ressources/g_one_line_map.txt");
 
     cr_assert_eq(solver(control), 0);
 }
 
-Test (SOLVER, one_col_map)
+Test (SOLVER, one_col_map, .init=redirect_all_std)
 {
     ctrl_t *control = create_ctrl("tests/ressources/g_one_col_map.txt");
 
     cr_assert_eq(solver(control), 0);
 }
 
-Test (SOLVER, simple_map)
+Test (SOLVER, simple_map, .init=redirect_all_std)
 {
     ctrl_t *control = create_ctrl("tests/ressources/g_simple_map.txt");
 
     cr_assert_eq(solver(control), 0);
 }
 
-Test (SOLVER, complex_map)
+Test (SOLVER, complex_map, .init=redirect_all_std)
 {
     ctrl_t *control = create_ctrl("tests/ressources/g_complex_map.txt");
 
     cr_assert_eq(solver(control), 0);
 }
 
-Test (SOLVER, hard_map)
+Test (SOLVER, hard_map, .init=redirect_all_std)
 {
     ctrl_t *control = create_ctrl("tests/ressources/g_hard_maze.txt");
 

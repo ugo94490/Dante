@@ -36,6 +36,8 @@ char **create_maze(char *path_maze, int heigth, int width)
     if (!fs)
         return (NULL);
     new_maze = create_borders(new_maze, heigth, width);
+    if (!new_maze)
+        return (NULL);
     for (int i = 1; i < heigth + 1; i += 1) {
         getline(&buff, &len, fs);
         sprintf(new_maze[i], "#%s", buff);

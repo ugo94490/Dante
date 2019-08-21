@@ -26,11 +26,11 @@ TESTS_NAME	=	tests_run
 
 CC		=	gcc
 
-CFLAGS		+=	-W -Wall -Wextra -Wshadow -g3
+CFLAGS		+=	-W -Wall -Wextra -Wshadow
 
 CPPFLAGS	=	-I./include
 
-TEST_FLAGS	=	-lcriterion --coverage -I./tests/include
+TEST_FLAGS	=	-lcriterion --coverage -I./tests/include -Wl,--wrap=malloc
 
 RM		=	rm -f
 
