@@ -5,9 +5,14 @@
 ## Makefile
 ##
 
-SRC		=	src/main.c		\
+SRC		=	src/main.c			\
+			src/solver.c			\
+			src/create_maze.c		\
+			src/create_ctrl.c
 
-SRC_T		=
+SRC_T		=	src/create_ctrl.c		\
+			src/create_maze.c		\
+			tests/t_create_ctrl.c
 
 OBJ		=	$(SRC:.c=.o)
 
@@ -19,11 +24,11 @@ TESTS_NAME	=	tests_run
 
 CC		=	gcc
 
-CFLAGS		+=	-W -Wall -Wextra -Wshadow
+CFLAGS		+=	-W -Wall -Wextra -Wshadow -g3
 
 CPPFLAGS	=	-I./include
 
-TEST_FLAGS	=	-lcriterion --coverage
+TEST_FLAGS	=	-lcriterion --coverage -I./tests/include
 
 RM		=	rm -f
 
@@ -36,6 +41,8 @@ tests_run 	:
 			@$(CC) $(CFLAGS) $(CPPFLAGS) $(TEST_FLAGS) $(SRC_T) -o $(TESTS_NAME)
 			@./$(TESTS_NAME)
 			@mv *.gc* tests/
+			@gcovr . --exclude tests/
+			@gcovr . -b --exclude tests/
 
 clean 		:
 			$(RM) $(OBJ)

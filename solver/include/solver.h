@@ -11,5 +11,27 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
+#include <string.h>
+#include <inttypes.h>
+
+/* Define and Static Const */
+static const char GOOD = 'o';
+static const char WALL = 'X';
+static const char WRONG = '@';
+static const char EMPTY = '*';
+
+/* Usefull Struct to Solve */
+typedef struct ctrl_s {
+    char *file;
+    char **maze;
+    char **cpy;
+    int heigth;
+    int width;
+} ctrl_t;
+
+/* Function to Solve the Maze */
+int8_t solver(ctrl_t *);
+char **create_maze(char *, int, int);
+ctrl_t *create_ctrl(char *path_maze);
 
 #endif /* _SOLVER_H_ */
