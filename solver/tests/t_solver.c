@@ -15,6 +15,20 @@ Test (SOLVER, no_exit_map)
     cr_assert_eq(solver(control), 1);
 }
 
+Test (SOLVER, one_line_map)
+{
+    ctrl_t *control = create_ctrl("tests/ressources/g_one_line_map.txt");
+
+    cr_assert_eq(solver(control), 0);
+}
+
+Test (SOLVER, one_col_map)
+{
+    ctrl_t *control = create_ctrl("tests/ressources/g_one_col_map.txt");
+
+    cr_assert_eq(solver(control), 0);
+}
+
 Test (SOLVER, simple_map)
 {
     ctrl_t *control = create_ctrl("tests/ressources/g_simple_map.txt");
@@ -29,16 +43,9 @@ Test (SOLVER, complex_map)
     cr_assert_eq(solver(control), 0);
 }
 
-Test (SOLVER, one_line_map)
+Test (SOLVER, hard_map)
 {
-    ctrl_t *control = create_ctrl("tests/ressources/g_one_line_map.txt");
-
-    cr_assert_eq(solver(control), 0);
-}
-
-Test (SOLVER, one_col_map)
-{
-    ctrl_t *control = create_ctrl("tests/ressources/g_one_col_map.txt");
+    ctrl_t *control = create_ctrl("tests/ressources/g_hard_maze.txt");
 
     cr_assert_eq(solver(control), 0);
 }
