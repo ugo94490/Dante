@@ -10,7 +10,9 @@ SRC		=	src/main.c			\
 			src/create_maze.c		\
 			src/create_ctrl.c
 
-SRC_T		=	src/create_ctrl.c		\
+SRC_T		=	src/solver.c			\
+			tests/t_solver.c		\
+			src/create_ctrl.c		\
 			src/create_maze.c		\
 			tests/t_create_ctrl.c
 

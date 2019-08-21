@@ -29,13 +29,9 @@ $(NAME) 	: 	buildin
 			@echo -e $(GREEN)$(GREEN_B)[Done]$(N_COLOR)
 
 tests_run 	:
-			@$(CC) $(SRC_T) -o $(TESTS_NAME) $(CPPFLAGS) $(TEST_FLAGS)
-			@./$(TESTS_NAME)
-			@mv *.gc* tests/
-
+			@cd solver && make tests_run
 clean 		:
 			@echo -e $(RED)============= Cleaning ==============$(N_COLOR)
-			@cd generator && make clean
 			@cd solver && make clean
 			@echo -e $(RED)[OK]$(N_COLOR)
 

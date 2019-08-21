@@ -84,8 +84,7 @@ ctrl_t *create_ctrl(char *path_maze)
         return (NULL);
     }
     control->maze = create_maze(path_maze, control->heigth, control->width);
-    control->cpy = create_maze(path_maze, control->heigth, control->width);
-    if (!control->maze || !control->cpy)
+    if (!control->maze)
         return (NULL);
     return (control);
 }

@@ -22,9 +22,7 @@ static const char EMPTY = '*';
 
 /* Usefull Struct to Solve */
 typedef struct ctrl_s {
-    char *file;
     char **maze;
-    char **cpy;
     int heigth;
     int width;
 } ctrl_t;
