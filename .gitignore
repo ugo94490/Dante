@@ -12,9 +12,6 @@
 # Libraries
 *.a
 
-### TEXT ###
-*.txt
-
 ### TRASH ###
 caca
 a.out
