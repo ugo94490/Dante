@@ -7,12 +7,15 @@
 
 #include "solver.h"
 
+static const char *ERR_MSG = "Error: Invalid File\n";
+static const uint8_t SIZE_MSG = 20;
+
 static int valid_cols(char *buff)
 {
     int cols = 0;
 
     for (cols = 0; buff[cols]; cols += 1)
-        if (buff[cols] != '*' && buff[cols] != '\n' && buff[cols] != 'X')
+        if (buff[cols] != EMPTY && buff[cols] != '\n' && buff[cols] != WALL)
             return (-1);
     return (cols);
 }
@@ -80,6 +83,7 @@ ctrl_t *create_ctrl(char *path_maze)
     control->heigth = count_line(path_maze);
     control->width = count_columns(path_maze);
     if (control->heigth == -1 || control->width == -1) {
+        write (2, ERR_MSG, SIZE_MSG);
         free(control);
         return (NULL);
     }

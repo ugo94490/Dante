@@ -19,6 +19,7 @@ static const char GOOD = 'o';
 static const char WALL = 'X';
 static const char WRONG = '@';
 static const char EMPTY = '*';
+static const char BORDER = '#';
 
 /* Usefull Struct to Solve */
 typedef struct ctrl_s {

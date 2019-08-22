@@ -7,22 +7,22 @@
 
 #include "solver.h"
 
-static uint8_t BORDERS = 2;
+static uint8_t BORDER_NBR = 2;
 
 static char **create_borders(char **new_maze, int heigth, int width)
 {
-    new_maze =  malloc(sizeof(char *) * (heigth + BORDERS + 1));
+    new_maze =  malloc(sizeof(char *) * (heigth + BORDER_NBR + 1));
     if (!new_maze)
         return (NULL);
-    for (int i = 0; i < heigth + BORDERS; i += 1)
-        new_maze[i] = malloc(sizeof(char) * (width + BORDERS));
+    for (int i = 0; i < heigth + BORDER_NBR; i += 1)
+        new_maze[i] = malloc(sizeof(char) * (width + BORDER_NBR));
     for (int i = 0; i < width; i += 1) {
-        new_maze[0][i] = '#';
-        new_maze[heigth + 1][i] = '#';
+        new_maze[0][i] = BORDER;
+        new_maze[heigth + 1][i] = BORDER;
     }
     new_maze[0][width] = 0;
     new_maze[heigth + 1][width] = 0;
-    new_maze[heigth + BORDERS] = NULL;
+    new_maze[heigth + BORDER_NBR] = NULL;
     return (new_maze);
  }
 

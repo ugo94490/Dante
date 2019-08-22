@@ -31,13 +31,13 @@ static uint8_t try_da_way(ctrl_t *control, int x, int y)
     if (x == control->width - 1  && y == control->heigth)
         return ((control->maze[y][x] = GOOD) != 0 ? 0 : 0);
     control->maze[y][x] = WRONG;
-    if (control->maze[y + 1][x] == EMPTY && try_da_way(control, x, y + 1) == 0)
-        return ((control->maze[y][x] = GOOD) != 0 ? 0 : 0);
     if (control->maze[y][x + 1] == EMPTY && try_da_way(control, x + 1, y) == 0)
         return ((control->maze[y][x] = GOOD) != 0 ? 0 : 0);
-    if (control->maze[y - 1][x] == EMPTY && try_da_way(control, x, y - 1) == 0)
+    if (control->maze[y + 1][x] == EMPTY && try_da_way(control, x, y + 1) == 0)
         return ((control->maze[y][x] = GOOD) != 0 ? 0 : 0);
     if (control->maze[y][x - 1] == EMPTY && try_da_way(control, x - 1, y) == 0)
+        return ((control->maze[y][x] = GOOD) != 0 ? 0 : 0);
+    if (control->maze[y - 1][x] == EMPTY && try_da_way(control, x, y - 1) == 0)
         return ((control->maze[y][x] = GOOD) != 0 ? 0 : 0);
     return (1);
 }
