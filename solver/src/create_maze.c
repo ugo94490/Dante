@@ -7,7 +7,7 @@
 
 #include "solver.h"
 
-static uint8_t BORDER_NBR = 2;
+static const uint8_t BORDER_NBR = 2;
 
 static char **create_borders(char **new_maze, int heigth, int width)
 {
@@ -24,7 +24,7 @@ static char **create_borders(char **new_maze, int heigth, int width)
     new_maze[heigth + 1][width] = 0;
     new_maze[heigth + BORDER_NBR] = NULL;
     return (new_maze);
- }
+}
 
 char **create_maze(char *path_maze, int heigth, int width)
 {
@@ -40,7 +40,10 @@ char **create_maze(char *path_maze, int heigth, int width)
         return (NULL);
     for (int i = 1; i < heigth + 1; i += 1) {
         getline(&buff, &len, fs);
-        sprintf(new_maze[i], "#%s", buff);
+        if (i == heigth)
+            sprintf(new_maze[i], "#%s\n", buff);
+        else
+            sprintf(new_maze[i], "#%s", buff);
     }
     free(buff);
     fclose(fs);

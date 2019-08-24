@@ -20,7 +20,7 @@ bool malloc_fail(bool set, int val)
     return count == 0;
 }
 
-void *WRAP_MALLOC(size_t s) {
+void *wrap_malloc(size_t s) {
     if (SHOULD_MALLOC_FAIL()) {
         errno = ENOMEM;
         return NULL;
@@ -58,12 +58,17 @@ Test (SOLVER, fail_malloc_one, .init=redirect_all_std)
 
 Test (SOLVER, success_open, .init=redirect_all_std)
 {
-    cr_assert_neq(create_ctrl("tests/ressources/g_simple_map.txt"), NULL);
+    cr_assert_eq(create_ctrl("tests/ressources/g_simple_map.txt"), NULL);
 }
 
 Test (SOLVER, one_line_file, .init=redirect_all_std)
 {
     cr_assert_neq(create_ctrl("tests/ressources/one_line_map.txt"), NULL);
+}
+
+Test (SOLVER, one_line_file_bad, .init=redirect_all_std)
+{
+    cr_assert_eq(create_ctrl("tests/ressources/one_line_map2.txt"), NULL);
 }
 
 Test (SOLVER, invalid_col_file, .init=redirect_all_std)

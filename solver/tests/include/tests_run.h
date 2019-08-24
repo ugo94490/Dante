@@ -13,7 +13,7 @@
 
 #include <stdbool.h>
 #define REAL_MALLOC (__real_malloc)
-#define WRAP_MALLOC (__wrap_malloc)
+#define wrap_malloc (__wrap_malloc)
 void *REAL_MALLOC(size_t s);
 
 #define SHOULD_MALLOC_FAIL() malloc_fail(false, 0)

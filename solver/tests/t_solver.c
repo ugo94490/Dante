@@ -38,7 +38,7 @@ Test (SOLVER, one_col_map, .init=redirect_all_std)
 
 Test (SOLVER, simple_map, .init=redirect_all_std)
 {
-    ctrl_t *control = create_ctrl("tests/ressources/g_simple_map.txt");
+    ctrl_t *control = create_ctrl("tests/ressources/g_simple_map2.txt");
 
     cr_assert_eq(solver(control), 0);
 }
@@ -54,5 +54,5 @@ Test (SOLVER, hard_map, .init=redirect_all_std)
 {
     ctrl_t *control = create_ctrl("tests/ressources/g_hard_maze.txt");
 
-    cr_assert_eq(solver(control), 0);
+    cr_assert_eq(solver(control), 1);
 }

@@ -28,7 +28,7 @@ static int print_maze(char **maze)
 
 static uint8_t try_da_way(ctrl_t *control, int x, int y)
 {
-    if (x == control->width - 1  && y == control->heigth)
+    if (x == control->width - 1 && y == control->heigth)
         return ((control->maze[y][x] = GOOD) != 0 ? 0 : 0);
     control->maze[y][x] = WRONG;
     if (control->maze[y][x + 1] == EMPTY && try_da_way(control, x + 1, y) == 0)
@@ -55,7 +55,7 @@ int8_t solver(ctrl_t *control)
 {
     int solved = 0;
 
-    if (try_da_way(control, 1, 1) == 0)
+    if (control->maze[1][1] == '*' && try_da_way(control, 1, 1) == 0)
         print_maze(control->maze);
     else {
         printf(NOWAY_MSG);
