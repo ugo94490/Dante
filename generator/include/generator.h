@@ -11,5 +11,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <ctype.h>
+#include <string.h>
+
+typedef struct info_s
+{
+    int width;
+    int height;
+    char *type;
+    char **maze;
+}info_t;
 
 #endif /* _GENERATOR_H_ */

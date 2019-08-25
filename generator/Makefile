@@ -5,7 +5,7 @@
 ## Makefile
 ##
 
-SRC		=	src/main.c		\
+SRC		=	main.c	\
 
 SRC_T		=
 
@@ -19,7 +19,7 @@ TESTS_NAME	=	tests_run
 
 CC		=	gcc
 
-CFLAGS		+=	-W -Wall -Wextra -Wshadow
+CFLAGS		=	-W -Wall -Wshadow
 
 CPPFLAGS	=	-I./include
 
@@ -27,10 +27,10 @@ TEST_FLAGS	=	-lcriterion --coverage
 
 RM		=	rm -f
 
-all		:	$(NAME)
-
 $(NAME) 	: 	$(OBJ)
 			@$(CC) -o $(NAME) $(OBJ)
+
+all		:	$(NAME)
 
 tests_run 	:
 			@$(CC) $(SRC_T) $(CFLAGS) $(CPPFLAGS) $(TEST_FLAGS) -o $(TESTS_NAME)
