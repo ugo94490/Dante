@@ -18,20 +18,22 @@ int check_nbr(char *str)
 
 int check_error(int ac, char **av)
 {
-    if (ac != 4)
+    if (ac != 4 && ac != 3)
         return (84);
     if (check_nbr(av[1]) == 84 || check_nbr(av[2]) == 84)
         return (84);
-    if (strcmp(av[3], "perfect") != 0 && strcmp(av[3], "perfect") != 0)
-        return (84);
+    if (ac == 4)
+        if (strcmp(av[3], "perfect") != 0)
+            return (84);
     return (0);
 }
 
-void init_info(info_t *info, char **av)
+void init_info(info_t *info, char **av, int ac)
 {
     info->width = atoi(av[1]);
     info->height = atoi(av[2]);
-    info->type = strdup(av[3]);
+    if (ac == 4)
+        info->type = strdup(av[3]);
 }
 
 char **alloc_maze(info_t *info)
@@ -83,12 +85,13 @@ int print_maze(info_t *info)
     return (0);
 }
 
-int free_all(info_t *info)
+int free_all(info_t *info, int ac)
 {
     for (int i = 0; info->maze[i]; i++)
         free(info->maze[i]);
     free(info->maze);
-    free(info->type);
+    if (ac == 4)
+        free(info->type);
     free(info);
     return (0);
 }
@@ -101,10 +104,9 @@ int main(int ac, char **av)
     if (check_error(ac, av) == 84)
         return (84);
     info = malloc(sizeof(info_t));
-    init_info(info, av);
+    init_info(info, av, ac);
     create_maze(info);
     print_maze(info);
-    printf("\nx = %d, y = %d, type = %s\n", info->width, info->height, info->type);
-    free_all(info);
+    free_all(info, ac);
     return (0);
 }
