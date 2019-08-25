@@ -55,6 +55,11 @@ static int check_each_lines(FILE *fs, char *buff, size_t len, int heigth)
             return (-1);
         }
     }
+    if (check_end(heigth, tmp_line, cols, buff) == 1) {
+        free(buff);
+        fclose (fs);
+        return (-1);
+    }
     free(buff);
     fclose(fs);
     return ((heigth == 1) ? cols + 1 : cols);
