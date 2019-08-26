@@ -18,8 +18,13 @@ typedef struct info_s
 {
     int width;
     int height;
+    int x;
+    int y;
+    int prev_x;
+    int prev_y;
+    int total;
     char *type;
-    char **maze;
+    int **maze;
 }info_t;
 
 #endif /* _GENERATOR_H_ */

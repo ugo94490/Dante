@@ -8,6 +8,11 @@
 #include <time.h>
 #include "generator.h"
 
+#define E 0
+#define O 1
+#define N 2
+#define S 3
+
 int check_nbr(char *str)
 {
     for (int i = 0; str[i]; i++)
@@ -30,29 +35,41 @@ int check_error(int ac, char **av)
 
 void init_info(info_t *info, char **av, int ac)
 {
+    int value_1 = 0;
+    int value_2 = 0;
+
     info->width = atoi(av[1]);
     info->height = atoi(av[2]);
+    info->x = 0;
+    info->y = 0;
+    info->prev_x = 0;
+    info->prev_y = 0;
+    if (info->width % 2 == 1)
+        value_1 = info->width / 2 + 1;
+    if (info->height % 2 == 1)
+        value_2 = info->height / 2 + 1;
+    info->total = value_1 * value_2;
     if (ac == 4)
         info->type = strdup(av[3]);
 }
 
-char **alloc_maze(info_t *info)
+int **alloc_maze(info_t *info)
 {
-    char **maze = malloc(sizeof(char *) * (info->height + 1));
+    int **maze = malloc(sizeof(int *) * (info->height + 1));
 
     for (int i = 0; i < info->height; i++)
-        maze[i] = malloc(sizeof(char) * (info->width + 2));
+        maze[i] = malloc(sizeof(int) * (info->width + 2));
     for (int i = 0; i < info->height; i++)
         for (int j = 0; j < info->width + 2; j++) {
-            maze[i][j] = 'X';
-            maze[i][info->width + 1] = '\0';
-            maze[i][info->width] = '\n';
+            maze[i][j] = 0;
+            maze[i][info->width + 1] = -2;
+            maze[i][info->width] = -1;
         }
     maze[info->height] = NULL;
     return (maze);
 }
 
-int rand_maze(info_t *info)
+/*int rand_maze(info_t *info)
 {
     int k = 0;
     int d = 0;
@@ -66,22 +83,88 @@ int rand_maze(info_t *info)
             info->maze[i][j] = '*';
     }
     return (0);
+    }*/
+
+int print_maze(info_t *info)
+{
+    for (int i = 0; i < info->height; i++) {
+        for (int j = 0; j < info->width + 2; j++)
+            printf("%d", info->maze[i][j]);
+        printf("\n");
+    }
+    return (0);
+}
+
+int choose_dir(int **maze, int x, int y, info_t *info)
+{
+    int gen = 0;
+
+    while (1) {
+        gen = rand() % 4;
+        if (gen == 0 && (x + 1 < info->width))
+            if (maze[x + 1][y] == 0)
+                break;
+        if (gen == 1 && (x - 1 >= 0))
+            if (maze[x - 1][y] == 0)
+                break;
+        if (gen == 2 && (y + 1 < info->height))
+            if (maze[x][y + 1] == 0)
+                break;
+        if (gen == 3 && (y - 1 >= 0))
+            if (maze[x][y - 1] == 0)
+                break;
+    }
+    return (gen);
+}
+
+int check_dir(int **maze, int x, int y, info_t *info)
+{
+    int count = 0;
+
+    if (x + 1 < info->height)
+        if (maze[x + 1][y] == 1)
+            count++;
+    if (x - 1 >= 0)
+        if (maze[x - 1][y] == 1)
+            count++;
+    if (y + 1 < info->width)
+        if (maze[x][y + 1] == 1)
+            count++;
+    if (y - 1 >= 0)
+        if (maze[x][y - 1] == 1)
+            count++;
+    return (count);
+}
+
+int **generate_maze(int **maze, int x, int y, info_t *info)
+{
+    int gen = choose_dir(maze, x, y, info);
+    int new_x = x;
+    int new_y = y;
+
+    while (1) {
+        if (gen == 0)
+            new_x += 1;
+        if (gen == 1)
+            new_x -= 1;
+        if (gen == 2)
+            new_y += 1;
+        if (gen == 3)
+            new_y -= 1;
+        if (check_dir(maze, new_x, new_y, info) == 0) {
+            maze[new_x][new_y] = 1;
+            generate_maze(maze, new_x, new_y, info);
+        }
+    }
+    printf("gen = %d\n", gen);
+    return (maze);
 }
 
 int create_maze(info_t *info)
 {
     info->maze = alloc_maze(info);
-
-    for (int i = 0; i < info->width; i++)
-        info->maze[0][i] = '*';
-    rand_maze(info);
-    return (0);
-}
-
-int print_maze(info_t *info)
-{
-    for (int i = 0; info->maze[i]; i++)
-        printf("%s", info->maze[i]);
+    info->maze[0][0] = 0;
+    //info->maze = generate_maze(info->maze, 0, 0, info);
     return (0);
 }
 
