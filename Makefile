@@ -23,30 +23,26 @@ buildin		:
 			@echo -e $(GREEN)[BUILDING] : $(NAME) $(N_COLOR)
 
 $(NAME) 	: 	buildin
-			@cd generator && make
-			@echo -e "\n"
-			@cd solver && make
+			@make -C solver
 			@echo -e $(GREEN)$(GREEN_B)[Done]$(N_COLOR)
 
 tests_run 	:
 			@cd solver && make tests_run
 clean 		:
 			@echo -e $(RED)============= Cleaning ==============$(N_COLOR)
-			@cd solver && make clean
+			@make clean -C solver
 			@echo -e $(RED)[OK]$(N_COLOR)
 
 tests_clean 	:
 			@echo -e $(RED)========== Cleaning : TEST ==========$(N_COLOR)
-			@cd generator && make tests_clean
-			@cd solver && make tests_clean
+			@make tests_clean -C solver
 			@echo -e $(RED)[OK]$(N_COLOR)
 
 fclean 		:	clean tests_clean
 			@echo -e $(RED)========= Cleaning : FINAL ==========$(N_COLOR)
-			@cd generator && make fclean
-			@cd solver && make fclean
+			@make fclean -C solver
 			@echo -e $(RED)[OK]$(N_COLOR)
 
 re		:	fclean all
 
-.PHONY 		:	all clean fclean re tests_run tests_clean $name
+.PHONY 		:	all clean fclean re tests_run tests_clean
