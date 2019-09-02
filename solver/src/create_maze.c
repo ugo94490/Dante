@@ -40,10 +40,7 @@ char **create_maze(char *path_maze, int heigth, int width)
         return (NULL);
     for (int i = 1; i < heigth + 1; i += 1) {
         getline(&buff, &len, fs);
-        if (i == heigth)
-            sprintf(new_maze[i], "#%s\n", buff);
-        else
-            sprintf(new_maze[i], "#%s", buff);
+        sprintf(new_maze[i], "#%s", buff);
     }
     free(buff);
     fclose(fs);
