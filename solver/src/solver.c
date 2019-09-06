@@ -12,8 +12,8 @@ static const char *NOWAY_MSG = "no solution found\n";
 static int clean_maze(char *maze_line)
 {
     for (int j = 0; maze_line[j]; j += 1)
-        if (maze_line[j] == '@')
-            maze_line[j] = '*';
+        if (maze_line[j] == WRONG)
+            maze_line[j] = EMPTY;
     return (0);
 }
 
