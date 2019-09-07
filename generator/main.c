@@ -163,22 +163,10 @@ int **modif_maze(int **maze, int x, int y, info_t *info)
 
     if (dir == -1)
         return (maze);
-    if (dir == 1) {
-        maze[x + 1][y] = 0;
-        maze[x + 2][y] = 0;
-    }
-    if (dir == 2) {
-        maze[x - 1][y] = 0;
-        maze[x - 2][y] = 0;
-    }
-    if (dir == 3) {
-        maze[x][y + 1] = 0;
-        maze[x][y + 2] = 0;
-    }
-    if (dir == 4) {
-        maze[x][y - 1] = 0;
-        maze[x][y - 2] = 0;
-    }
+    dir == 1 ? maze[x + 1][y] = 0, maze[x + 2][y] = 0 : 0;
+    dir == 2 ? maze[x - 1][y] = 0, maze[x - 2][y] = 0 : 0;
+    dir == 3 ? maze[x][y + 1] = 0, maze[x][y + 2] = 0 : 0;
+    dir == 4 ? maze[x][y - 1] = 0, maze[x][y - 2] = 0 : 0;
     return (maze);
 }
 
