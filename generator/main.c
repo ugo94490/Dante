@@ -33,6 +33,49 @@ int check_error(int ac, char **av)
     return (0);
 }
 
+int my_strlen_tab(char **tab)
+{
+    int i = 0;
+
+    if (tab == NULL)
+        return (i);
+    for (i = 0; tab[i] != NULL; i++);
+    return (i);
+}
+
+int my_free_tab(char **tab, int ret)
+{
+    for (int i = 0; i < my_strlen_tab(tab); i++)
+        free(tab[i]);
+    free(tab);
+    return (ret);
+}
+
+char **tab_realloc(char **tab, char *buffer)
+{
+    int i = 0;
+    char **copy = NULL;
+
+    if (buffer == NULL)
+        return (tab);
+    if (tab == NULL) {
+        copy = malloc(sizeof(char *) * (i + 2));
+        copy[0] = malloc(sizeof(char) * (strlen(buffer) + 1));
+        copy[0] = strcpy(copy[0], buffer);
+        copy[1] = NULL;
+    } else {
+        for (i = 0; tab[i] != NULL; i++);
+        copy = malloc(sizeof(char *) * (i + 2));
+        for (int j = 0; tab[j] != NULL; j++)
+            copy[j] = strdup(tab[j]);
+        copy[i] = strdup(buffer);
+        copy[i + 1] = NULL;
+    }
+    tab != NULL ? my_free_tab(tab, 0) : 0;
+    free(buffer);
+    return (copy);
+}
+
 void init_info(info_t *info, char **av, int ac)
 {
     int value_1 = 0;
@@ -69,103 +112,78 @@ int **alloc_maze(info_t *info)
     return (maze);
 }
 
+int convert_print(info_t *info, int i, int j)
+{
+    if (info->maze[i][j] == 0)
+        printf("*");
+    if (info->maze[i][j] == 1)
+        printf("X");
+    if (info->maze[i][j] == -1)
+        printf("\n");
+    return (0);
+}
+
 int print_maze(info_t *info)
 {
     for (int i = 0; i < info->height; i++) {
         for (int j = 0; j < info->width + 2; j++)
-            printf("%d", info->maze[i][j]);
-        printf("\n");
+            convert_print(info, i, j);
     }
     return (0);
 }
 
-int check_dir(int **maze, int x, int y, info_t *info)
-{
-    int count = 0;
-
-    if (x + 2 < info->height) {
-        printf("%d\n", maze[x + 2][y]);
-        if (maze[x + 2][y] == 1)
-            count++;
-    }
-    if (x - 2 >= 0)
-        if (maze[x - 2][y] == 1)
-            count++;
-    if (y + 2 < info->width)
-        if (maze[x][y + 2] == 1)
-            count++;
-    if (y - 2 >= 0)
-        if (maze[x][y - 2] == 1)
-            count++;
-    return (count);
-}
-
 int choose_dir(int **maze, int x, int y, info_t *info)
 {
-    int gen = 0;
-    int a = 0;
-    int b = 0;
-    int c = 0;
-    int d = 0;
+    int direction = -1;
+    char **tab = NULL;
 
-    if (check_dir(maze, x, y, info) == 4)
-        return (-1);
-    while (1) {
-        gen = rand() % 4;
-        if (gen == 0 && (x + 2 < info->width))
-            if (maze[x + 2][y] == 1)
-                break;
-        if (gen == 1 && (x - 2 >= 0))
-            if (maze[x - 2][y] == 1)
-                break;
-        if (gen == 2 && (y + 2 < info->height))
-            if (maze[x][y + 2] == 1)
-                break;
-        if (gen == 3 && (y - 2 >= 0))
-            if (maze[x][y - 2] == 1)
-                break;
-        if (gen == 0)
-            a = 1;
-        if (gen == 1)
-            b = 1;
-        if (gen == 2)
-            c = 1;
-        if (gen == 3)
-            d = 1;
-        if (a == 1 && b == 1 && c == 1 && d == 1)
-            return (-1);
-    }
-    return (gen);
+    if (x + 2 < info->height)
+        if (maze[x + 2][y] == 1)
+            tab = tab_realloc(tab, strdup("1"));
+    if (x - 2 >= 0)
+        if (maze[x - 2][y] == 1)
+            tab = tab_realloc(tab, strdup("2"));
+    if (y + 2 < info->width)
+        if (maze[x][y + 2] == 1)
+            tab = tab_realloc(tab, strdup("3"));
+    if (y - 2 >= 0)
+        if (maze[x][y - 2] == 1)
+            tab = tab_realloc(tab, strdup("4"));
+    if (my_strlen_tab(tab) == 0)
+        return (direction);
+    return (atoi(tab[rand() % my_strlen_tab(tab)]));
 }
 
-int **generate_maze(int **maze, int x, int y, info_t *info)
+int **modif_maze(int **maze, int x, int y, info_t *info)
 {
     int dir = choose_dir(maze, x, y, info);
-    int new_x = x;
-    int new_y = y;
 
-    while(dir != -1) {
-        if (dir == 0) {
-            maze[x + 1][y] = 0;
-            maze[x + 2][y] = 0;
-            new_x += 2;
-        }
-        if (dir == 1) {
-            maze[x - 1][y] = 0;
-            maze[x - 2][y] = 0;
-            new_x -= 2;
-        }
-        if (dir == 2) {
-            maze[x][y + 1] = 0;
-            maze[x][y + 2] = 0;
-            new_y += 2;
-        }
-        if (dir == 3) {
-            maze[x][y - 1] = 0;
-            maze[x][y - 2] = 0;
-            new_y -= 2;
-        }
-        maze = generate_maze(maze, new_x, new_y, info);
+    if (dir == -1)
+        return (maze);
+    if (dir == 1) {
+        maze[x + 1][y] = 0;
+        maze[x + 2][y] = 0;
+    }
+    if (dir == 2) {
+        maze[x - 1][y] = 0;
+        maze[x - 2][y] = 0;
+    }
+    if (dir == 3) {
+        maze[x][y + 1] = 0;
+        maze[x][y + 2] = 0;
+    }
+    if (dir == 4) {
+        maze[x][y - 1] = 0;
+        maze[x][y - 2] = 0;
+    }
+    return (maze);
+}
+
+int **generate_maze(int **maze, info_t *info)
+{
+    for (int i = 0; i < info->height; i += 2) {
+        for (int j = 0; j < info->width; j += 2)
+            maze = modif_maze(maze, i, j, info);
     }
     return (maze);
 }
@@ -175,7 +193,7 @@ int create_maze(info_t *info)
     info->maze = alloc_maze(info);
     info->maze[0][0] = 0;
     info->maze[info->height - 1][info->width - 1] = 0;
-    info->maze = generate_maze(info->maze, 0, 0, info);
+    info->maze = generate_maze(info->maze, info);
     return (0);
 }
 
