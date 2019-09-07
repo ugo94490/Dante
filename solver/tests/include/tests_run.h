@@ -12,9 +12,9 @@
 #include <criterion/redirect.h>
 
 #include <stdbool.h>
-#define REAL_MALLOC (__real_malloc)
+#define real_malloc (__real_malloc)
 #define wrap_malloc (__wrap_malloc)
-void *REAL_MALLOC(size_t s);
+void *real_malloc(size_t s);
 
 #define SHOULD_MALLOC_FAIL() malloc_fail(false, 0)
 #define SET_MALLOC_FAIL(x) malloc_fail(true, (x))
