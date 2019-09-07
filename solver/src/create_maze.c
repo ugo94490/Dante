@@ -11,7 +11,7 @@ static const uint8_t BORDER_NBR = 2;
 
 static char **create_borders(char **new_maze, int heigth, int width)
 {
-    new_maze =  malloc(sizeof(char *) * (heigth + BORDER_NBR + 1));
+    new_maze = malloc(sizeof(char *) * (heigth + BORDER_NBR + 1));
     if (!new_maze)
         return (NULL);
     for (int i = 0; i < heigth + BORDER_NBR; i += 1)

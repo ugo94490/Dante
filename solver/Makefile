@@ -8,12 +8,14 @@
 SRC		=	src/main.c			\
 			src/solver.c			\
 			src/create_maze.c		\
-			src/create_ctrl.c
+			src/create_ctrl.c		\
+			src/ctrl_lines.c
 
 SRC_T		=	src/solver.c			\
 			tests/t_solver.c		\
 			src/create_ctrl.c		\
 			src/create_maze.c		\
+			src/ctrl_lines.c		\
 			tests/t_create_ctrl.c
 
 OBJ		=	$(SRC:.c=.o)

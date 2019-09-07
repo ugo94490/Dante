@@ -10,13 +10,6 @@
 static const char *ERR_MSG = "Error: Invalid File\n";
 static const uint8_t SIZE_MSG = 20;
 
-static int check_end(int heigth, int tmp_line, int cols, char *buff)
-{
-    if (heigth - 1 == tmp_line && buff[cols - 1] == '\n')
-        return (1);
-    return (0);
-}
-
 static int valid_cols(char *buff)
 {
     int cols = 0;
@@ -36,32 +29,19 @@ static int check_each_lines(FILE *fs, char *buff, size_t len, int heigth)
     getline(&buff, &len, fs);
     cols = valid_cols(buff);
     if (cols == -1 || cols == 0 || (buff[cols - 1] == '\n'\
-    && tmp_line == heigth)) {
-        free(buff);
-        fclose(fs);
+    && tmp_line == heigth))
         return (-1);
-    }
     while (getline(&buff, &len, fs) != -1) {
         tmp_line += 1;
         tmp = valid_cols(buff);
-        if (check_end(heigth, tmp_line, cols, buff) == 1) {
-            free(buff);
-            fclose (fs);
+        if (ctrl_lines(heigth, tmp_line, cols, buff) == -1)
             return (-1);
-        }
-        if (heigth - 1 != tmp_line && (tmp == -1 || tmp != cols)) {
-            free(buff);
-            fclose (fs);
+        if (heigth - 1 != tmp_line && (tmp == -1 || tmp != cols))
             return (-1);
-        }
     }
-    if (check_end(heigth, tmp_line, cols, buff) == 1) {
-        free(buff);
-        fclose (fs);
+    if (ctrl_lines(heigth, tmp_line, cols, buff) == -1)
         return (-1);
-    }
     free(buff);
-    fclose(fs);
     return ((heigth == 1) ? cols + 1 : cols);
 }
 
@@ -103,7 +83,7 @@ ctrl_t *create_ctrl(char *path_maze)
     control->heigth = count_line(path_maze);
     control->width = count_columns(path_maze, control->heigth);
     if (control->heigth == -1 || control->width == -1) {
-        write (2, ERR_MSG, SIZE_MSG);
+        write(2, ERR_MSG, SIZE_MSG);
         free(control);
         return (NULL);
     }

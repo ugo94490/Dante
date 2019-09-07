@@ -32,5 +32,6 @@ typedef struct ctrl_s {
 int8_t solver(ctrl_t *);
 char **create_maze(char *, int, int);
 ctrl_t *create_ctrl(char *path_maze);
+int ctrl_lines(int heigth, int tmp_line, int cols, char *buff);
 
 #endif /* _SOLVER_H_ */
