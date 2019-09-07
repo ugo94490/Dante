@@ -118,8 +118,9 @@ int convert_print(info_t *info, int i, int j)
         printf("*");
     if (info->maze[i][j] == 1)
         printf("X");
-    if (info->maze[i][j] == -1)
-        printf("\n");
+    if (i != info->height - 1)
+        if (info->maze[i][j] == -1)
+            printf("\n");
     return (0);
 }
 
@@ -151,7 +152,9 @@ int choose_dir(int **maze, int x, int y, info_t *info)
             tab = tab_realloc(tab, strdup("4"));
     if (my_strlen_tab(tab) == 0)
         return (direction);
-    return (atoi(tab[rand() % my_strlen_tab(tab)]));
+    direction = atoi(tab[rand() % my_strlen_tab(tab)]);
+    my_free_tab(tab, 0);
+    return (direction);
 }
 
 int **modif_maze(int **maze, int x, int y, info_t *info)
