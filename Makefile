@@ -29,7 +29,6 @@ $(NAME) 	: 	buildin
 
 tests_run 	:
 			@make tests_run -C solver
-			@make tests_run -C generator
 
 clean 		:
 			@echo -e $(RED)============= Cleaning ==============$(N_COLOR)
