@@ -27,4 +27,12 @@ typedef struct info_s
     int **maze;
 }info_t;
 
+typedef struct link_s
+{
+    int x;
+    int y;
+    struct link_s *next;
+    struct link_s *prev;
+} link_t;
+
 #endif /* _GENERATOR_H_ */
