@@ -46,6 +46,8 @@ int check_error(int ac, char **av)
         return (84);
     if (check_nbr(av[1]) == 84 || check_nbr(av[2]) == 84)
         return (84);
+    if (atoi(av[1]) <= 0 || atoi(av[2]) <= 0)
+        return (84);
     if (ac == 4)
         if (strcmp(av[3], "perfect") != 0)
             return (84);
@@ -234,15 +236,12 @@ int my_linklen(link_t **link)
 {
     link_t *tmp = (*link);
     int i = 1;
-    //printf("DANS LE LINKLEN\n");
+
     if (!tmp)
         return (0);
-    while (tmp->prev != NULL) {
-        //printf("DANS LE LINKLEN PREV\n");
+    while (tmp->prev != NULL)
         tmp = tmp->prev;
-    }
     while (tmp->next != NULL) {
-        //printf("DANS LE LINKLEN NEXT\n");
         tmp = tmp->next;
         i++;
     }
