@@ -6,6 +6,8 @@
 ##
 
 SRC		=	main.c	\
+			src/tools.c		\
+			src/check_error.c
 
 SRC_T		=
 

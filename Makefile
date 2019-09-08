@@ -24,23 +24,29 @@ buildin		:
 
 $(NAME) 	: 	buildin
 			@make -C solver
+			@make -C generator
 			@echo -e $(GREEN)$(GREEN_B)[Done]$(N_COLOR)
 
 tests_run 	:
-			@cd solver && make tests_run
+			@make tests_run -C solver
+			@make tests_run -C generator
+
 clean 		:
 			@echo -e $(RED)============= Cleaning ==============$(N_COLOR)
 			@make clean -C solver
+			@make clean -C generator
 			@echo -e $(RED)[OK]$(N_COLOR)
 
 tests_clean 	:
 			@echo -e $(RED)========== Cleaning : TEST ==========$(N_COLOR)
 			@make tests_clean -C solver
+			@make tests_clean -C generator
 			@echo -e $(RED)[OK]$(N_COLOR)
 
 fclean 		:	clean tests_clean
 			@echo -e $(RED)========= Cleaning : FINAL ==========$(N_COLOR)
 			@make fclean -C solver
+			@make fclean -C generator
 			@echo -e $(RED)[OK]$(N_COLOR)
 
 re		:	fclean all

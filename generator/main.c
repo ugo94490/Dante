@@ -32,71 +32,6 @@ void link_end(link_t **start, int x, int y)
     }
 }
 
-int check_nbr(char *str)
-{
-    for (int i = 0; str[i]; i++)
-        if (isdigit(str[i]) == 0)
-            return (84);
-    return (0);
-}
-
-int check_error(int ac, char **av)
-{
-    if (ac != 4 && ac != 3)
-        return (84);
-    if (check_nbr(av[1]) == 84 || check_nbr(av[2]) == 84)
-        return (84);
-    if (atoi(av[1]) <= 0 || atoi(av[2]) <= 0)
-        return (84);
-    if (ac == 4)
-        if (strcmp(av[3], "perfect") != 0)
-            return (84);
-    return (0);
-}
-
-int my_strlen_tab(char **tab)
-{
-    int i = 0;
-
-    if (tab == NULL)
-        return (i);
-    for (i = 0; tab[i] != NULL; i++);
-    return (i);
-}
-
-int my_free_tab(char **tab, int ret)
-{
-    for (int i = 0; i < my_strlen_tab(tab); i++)
-        free(tab[i]);
-    free(tab);
-    return (ret);
-}
-
-char **tab_realloc(char **tab, char *buffer)
-{
-    int i = 0;
-    char **copy = NULL;
-
-    if (buffer == NULL)
-        return (tab);
-    if (tab == NULL) {
-        copy = malloc(sizeof(char *) * (i + 2));
-        copy[0] = malloc(sizeof(char) * (strlen(buffer) + 1));
-        copy[0] = strcpy(copy[0], buffer);
-        copy[1] = NULL;
-    } else {
-        for (i = 0; tab[i] != NULL; i++);
-        copy = malloc(sizeof(char *) * (i + 2));
-        for (int j = 0; tab[j] != NULL; j++)
-            copy[j] = strdup(tab[j]);
-        copy[i] = strdup(buffer);
-        copy[i + 1] = NULL;
-    }
-    tab != NULL ? my_free_tab(tab, 0) : 0;
-    free(buffer);
-    return (copy);
-}
-
 void init_info(info_t *info, char **av, int ac)
 {
     int value_1 = 0;
@@ -257,10 +192,9 @@ void add_link(link_t **link, int x, int y)
     (*link)->y = y;
 }
 
-int check_one(link_t **link, info_t *info, int rand, int i)
+int check_one(link_t **link, info_t *info, int i)
 {
     int dir = 0;
-    link_t *tmp = malloc(sizeof(link_t));
 
     dir = choose_dir(info->maze, (*link)->x, (*link)->y, info);
     i++;
@@ -324,7 +258,7 @@ int **generate_maze(int **maze, info_t *info)
 
     maze[link->y][link->x] = 0;
     while (my_linklen(&link) != 0) {
-        if (check_one(&link, info, go_rand(&link), i++) == -2)
+        if (check_one(&link, info, i++) == -2)
             break;
         j++;
     }

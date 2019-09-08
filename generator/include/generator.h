@@ -35,4 +35,13 @@ typedef struct link_s
     struct link_s *prev;
 } link_t;
 
+/* Check Error */
+int check_nbr(char *);
+int check_error(int, char **);
+
+/* Tools Function */
+int my_strlen_tab(char **);
+char **tab_realloc(char **, char *);
+int my_free_tab(char **, int);
+
 #endif /* _GENERATOR_H_ */
