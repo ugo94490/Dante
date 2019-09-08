@@ -149,9 +149,7 @@ int print_maze(info_t *info)
     for (int i = 0; i < info->height; i++) {
         for (int j = 0; j < info->width + 1; j++)
             convert_print(info, i, j);
-        //printf("%d ", info->maze[i][j]);
     }
-    printf("\n");
     return (0);
 }
 
@@ -290,7 +288,6 @@ int check_one(link_t **link, info_t *info, int rand, int i)
     }
     if (dir == -1) {
         if(my_linklen(link) == 1) {
-            print_maze(info);
             return (-2);
         }
         if ((*link)->next == NULL) {
