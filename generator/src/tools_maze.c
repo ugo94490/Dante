@@ -7,11 +7,6 @@
 
 #include "generator.h"
 
-/*int do_imperfect(info_t *info)
-{
-    for (int i = 0; )
-    }*/
-
 int print_maze(info_t *info)
 {
     for (int i = 0; i < info->height; i++) {
