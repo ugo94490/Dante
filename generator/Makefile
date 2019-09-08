@@ -7,7 +7,12 @@
 
 SRC		=	main.c	\
 			src/tools.c		\
-			src/check_error.c
+			src/check_error.c	\
+			src/create_info.c	 \
+			src/node_tools.c	\
+			src/tools_maze.c	\
+			src/check_direction.c	\
+			src/generator.c
 
 SRC_T		=
 
