@@ -7,7 +7,7 @@
 
 #include "solver.h"
 
-static const char *NOWAY_MSG = "no solution found\n";
+static const char *NOWAY_MSG = "no solution found";
 
 static int clean_maze(char *maze_line)
 {

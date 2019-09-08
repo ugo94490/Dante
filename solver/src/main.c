@@ -16,6 +16,7 @@ int main(int ac, char **av, char **env)
     control = create_ctrl(av[1]);
     if (!control)
         return (84);
-    solver(control);
+    if (solver(control) == 1)
+        return (84);
     return (0);
 }
