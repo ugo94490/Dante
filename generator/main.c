@@ -8,6 +8,30 @@
 #include <time.h>
 #include "generator.h"
 
+void link_end(link_t **start, int x, int y)
+{
+    link_t *new_node = malloc(sizeof(link_t));
+
+    if (!new_node)
+        return;
+    if (*start == NULL) {
+        new_node->x = x;
+        new_node->y = y;
+        new_node->next = NULL;
+        new_node->prev = NULL;
+        *start = new_node;
+    } else {
+        while ((*start)->next != NULL) {
+            (*start) = (*start)->next;
+        }
+        new_node->prev = (*start);
+        (*start)->next = new_node;
+        new_node->x = x;
+        new_node->y = y;
+        new_node->next = NULL;
+    }
+}
+
 int check_nbr(char *str)
 {
     for (int i = 0; str[i]; i++)
@@ -89,6 +113,8 @@ void init_info(info_t *info, char **av, int ac)
     info->total = value_1 * value_2;
     if (ac == 4)
         info->type = strdup(av[3]);
+    else
+        info->type = strdup("imperfect");
 }
 
 int **alloc_maze(info_t *info)
@@ -180,7 +206,7 @@ int **change(int **maze, int x, int y, int flag)
         1 == 1 ? maze[y+1][x] = nb, maze[y-1][x] = nb : 0;
         maze[y][x] = nb;
     }
-    printf("x = %d y = %d\n", x, y);
+    //printf("x = %d y = %d\n", x, y);
     return (maze);
 }
 
@@ -206,14 +232,20 @@ link_t *init_link(int y, int x)
     return (link);
 }
 
-int my_linklen(link_t *link)
+int my_linklen(link_t **link)
 {
+    link_t *tmp = (*link);
     int i = 1;
-
-    if (link == NULL)
+    //printf("DANS LE LINKLEN\n");
+    if (!tmp)
         return (0);
-    while (link->next != NULL) {
-        link = link->next;
+    while (tmp->prev != NULL) {
+        //printf("DANS LE LINKLEN PREV\n");
+        tmp = tmp->prev;
+    }
+    while (tmp->next != NULL) {
+        //printf("DANS LE LINKLEN NEXT\n");
+        tmp = tmp->next;
         i++;
     }
     return (i);
@@ -229,95 +261,78 @@ void add_link(link_t **link, int x, int y)
     (*link)->y = y;
 }
 
-int get_len(link_t *link)
-{
-    int len = 0;
-
-    while (link->prev != NULL)
-        link = link->prev;
-    len = my_linklen(link);
-    return (len);
-}
-
-int check_one(link_t **link, info_t *info)
+int check_one(link_t **link, info_t *info, int rand, int i)
 {
     int dir = 0;
-    static int flag = 0;
+    link_t *tmp = malloc(sizeof(link_t));
 
-    if (!(*link))
-        return (-1);
     dir = choose_dir(info->maze, (*link)->x, (*link)->y, info);
-    //printf("%d\n", get_len((*link)));
-    if (dir == -1 && flag == 0){
-        print_maze(info);
-        printf("\n");
+    i++;
+    if (dir == 1) {
+        dir == 1 ? info->maze[(*link)->x + 1][(*link)->y] = 0,
+        info->maze[(*link)->x + 2][(*link)->y] = 0 : 0;
+        link_end(link, (*link)->x + 2, (*link)->y);
+    }
+    if (dir == 2) {
+        dir == 2 ? info->maze[(*link)->x - 1][(*link)->y] = 0,
+        info->maze[(*link)->x - 2][(*link)->y] = 0 : 0;
+        link_end(link, (*link)->x - 2, (*link)->y);
+    }
+    if (dir == 3) {
+        dir == 3 ? info->maze[(*link)->x][(*link)->y + 1] = 0,
+        info->maze[(*link)->x][(*link)->y + 2] = 0 : 0;
+        link_end(link, (*link)->x, (*link)->y + 2);
+    }
+    if (dir == 4) {
+        dir == 4 ? info->maze[(*link)->x][(*link)->y - 1] = 0,
+        info->maze[(*link)->x][(*link)->y - 2] = 0 : 0;
+        link_end(link, (*link)->x, (*link)->y - 2);
+    }
+    if (dir == -1) {
+        if(my_linklen(link) == 1) {
+            print_maze(info);
+            return (-2);
+        }
         if ((*link)->next == NULL) {
-            printf("dernier node\n");
             (*link) = (*link)->prev;
             free((*link)->next);
+            if ((*link)->next == NULL)
+                exit(0);
             (*link)->next = NULL;
         } else if ((*link)->next != NULL && (*link)->prev == NULL) {
-            printf("1er node\n");
             (*link) = (*link)->next;
             free((*link)->prev);
         } else if ((*link)->next != NULL && (*link)->prev != NULL) {
-            printf("node au milieu\n");
             (*link) = (*link)->next;
             (*link)->prev->prev->next = (*link);
             (*link)->prev = (*link)->prev->prev;
         }
         return (-1);
     }
-    if (dir == 1) {
-        dir == 1 ? info->maze[(*link)->x + 1][(*link)->y] = 0,
-        info->maze[(*link)->x + 2][(*link)->y] = 0 : 0;
-        add_link(link, (*link)->x + 2, (*link)->y);
-    }
-    if (dir == 2) {
-        dir == 2 ? info->maze[(*link)->x - 1][(*link)->y] = 0,
-        info->maze[(*link)->x - 2][(*link)->y] = 0 : 0;
-        add_link(link, (*link)->x - 2, (*link)->y);
-    }
-    if (dir == 3) {
-        dir == 3 ? info->maze[(*link)->x][(*link)->y + 1] = 0,
-        info->maze[(*link)->x][(*link)->y + 2] = 0 : 0;
-        add_link(link, (*link)->x, (*link)->y + 2);
-    }
-    if (dir == 4) {
-        dir == 4 ? info->maze[(*link)->x][(*link)->y - 1] = 0,
-        info->maze[(*link)->x][(*link)->y - 2] = 0 : 0;
-        add_link(link, (*link)->x, (*link)->y - 2);
-    }
-    flag = 0;
     return (0);
 }
 
-void go_rand(link_t **link)
+int go_rand(link_t **link)
 {
-    int len = 0;
     int pos = 0;
+    int len = 0;
 
-    printf("pd pd pdp dppd pd pdpdd = %d %d\n", (*link)->x, (*link)->y);
-    len = get_len((*link));
+    len = my_linklen(link);
     pos = rand() % len;
-    while ((*link)->prev != NULL)
-        (*link) = (*link)->prev;
-    //printf("len = %d pos = %d\n", len, pos);
-    for (int i = 0; i < pos; i++)
-        (*link) = (*link)->next;
+    return (pos);
 }
 
 int **generate_maze(int **maze, info_t *info)
 {
     link_t *link = init_link(0, 0);
-    link_t *tmp = link;
+    int i = 0;
+    int j = 0;
 
     maze[link->y][link->x] = 0;
-    while (my_linklen(tmp) != 0) {
-        //printf("tmp_len = %d\n", get_len(tmp));
-        if (check_one(&link, info) == -1)
-            go_rand(&link);
-        //printf("next = %d %d \n", link->next->x, link->next->y);
+    while (my_linklen(&link) != 0) {
+        if (check_one(&link, info, go_rand(&link), i++) == -2)
+            break;
+        j++;
     }
     return (info->maze);
 }
@@ -326,7 +341,16 @@ int create_maze(info_t *info)
 {
     info->maze = alloc_maze(info);
     info->maze = generate_maze(info->maze, info);
-    //info->maze[info->height - 1][info->width - 1] = 0;
+    if (info->height % 2 == 0 && info->width % 2 == 0) {
+        info->maze[info->height - 2][info->width - 1] = 0;
+        info->maze[info->height - 1][info->width - 1] = 0;
+    }
+    if (info->height % 2 == 0 && info->width % 2 != 0)
+        info->maze[info->height - 1][info->width - 1] = 0;
+    if (info->height % 2 != 0 && info->width % 2 == 0)
+        info->maze[info->height - 1][info->width - 1] = 0;
+    /*if (strcmp(info->type, "imperfect") == 0)
+      do_imperfect();*/
     return (0);
 }
 
