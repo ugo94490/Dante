@@ -206,7 +206,6 @@ int **change(int **maze, int x, int y, int flag)
         1 == 1 ? maze[y+1][x] = nb, maze[y-1][x] = nb : 0;
         maze[y][x] = nb;
     }
-    //printf("x = %d y = %d\n", x, y);
     return (maze);
 }
 
@@ -267,28 +266,27 @@ int check_one(link_t **link, info_t *info, int rand, int i)
     i++;
     if (dir == 1) {
         dir == 1 ? info->maze[(*link)->x + 1][(*link)->y] = 0,
-        info->maze[(*link)->x + 2][(*link)->y] = 0 : 0;
+    info->maze[(*link)->x + 2][(*link)->y] = 0 : 0;
         link_end(link, (*link)->x + 2, (*link)->y);
     }
     if (dir == 2) {
         dir == 2 ? info->maze[(*link)->x - 1][(*link)->y] = 0,
-        info->maze[(*link)->x - 2][(*link)->y] = 0 : 0;
+    info->maze[(*link)->x - 2][(*link)->y] = 0 : 0;
         link_end(link, (*link)->x - 2, (*link)->y);
     }
     if (dir == 3) {
         dir == 3 ? info->maze[(*link)->x][(*link)->y + 1] = 0,
-        info->maze[(*link)->x][(*link)->y + 2] = 0 : 0;
+    info->maze[(*link)->x][(*link)->y + 2] = 0 : 0;
         link_end(link, (*link)->x, (*link)->y + 2);
     }
     if (dir == 4) {
         dir == 4 ? info->maze[(*link)->x][(*link)->y - 1] = 0,
-        info->maze[(*link)->x][(*link)->y - 2] = 0 : 0;
+    info->maze[(*link)->x][(*link)->y - 2] = 0 : 0;
         link_end(link, (*link)->x, (*link)->y - 2);
     }
     if (dir == -1) {
-        if(my_linklen(link) == 1) {
+        if (my_linklen(link) == 1)
             return (-2);
-        }
         if ((*link)->next == NULL) {
             (*link) = (*link)->prev;
             free((*link)->next);
@@ -333,6 +331,11 @@ int **generate_maze(int **maze, info_t *info)
     return (info->maze);
 }
 
+/*int do_imperfect(info_t *info)
+{
+    for (int i = 0; )
+    }*/
+
 int create_maze(info_t *info)
 {
     info->maze = alloc_maze(info);
@@ -346,7 +349,7 @@ int create_maze(info_t *info)
     if (info->height % 2 != 0 && info->width % 2 == 0)
         info->maze[info->height - 1][info->width - 1] = 0;
     /*if (strcmp(info->type, "imperfect") == 0)
-      do_imperfect();*/
+      do_imperfect(info);*/
     return (0);
 }
 
