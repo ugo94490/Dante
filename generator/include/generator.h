@@ -50,7 +50,7 @@ int **generate_maze(int **, info_t *);
 int create_maze(info_t *);
 
 /* Direction tools */
-int check_one(link_t **, info_t *, int);
+int check_one(link_t **, info_t *);
 int convert_print(info_t *, int, int);
 
 /* Node Tools */

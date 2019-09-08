@@ -55,7 +55,7 @@ void which_way(link_t **link, info_t *info, int dir)
     }
 }
 
-int check_one(link_t **link, info_t *info, int i)
+int check_one(link_t **link, info_t *info)
 {
     int dir = choose_dir(info->maze, (*link)->x, (*link)->y, info);
 
