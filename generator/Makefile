@@ -26,7 +26,7 @@ TESTS_NAME	=	tests_run
 
 CC		=	gcc
 
-CFLAGS		=	-W -Wall -Wshadow -g3
+CFLAGS		=	-W -Wall -Wshadow
 
 CPPFLAGS	=	-I./include
 
