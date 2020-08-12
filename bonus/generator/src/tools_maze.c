@@ -98,6 +98,7 @@ int create_maze(info_t *info, sfRenderWindow *window)
         draw(window, info, blanc);
         sfRenderWindow_display(window);
     }
+    print_maze(info);
     destroy_object(blanc);
     return (0);
 }

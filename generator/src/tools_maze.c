@@ -55,6 +55,6 @@ int create_maze(info_t *info)
     if (info->height % 2 != 0 && info->width % 2 == 0)
         info->maze[info->height - 1][info->width - 1] = 0;
     if (strcmp(info->type, "imperfect") == 0)
-      info->maze = do_imperfect(info);
+        info->maze = do_imperfect(info);
     return (0);
 }

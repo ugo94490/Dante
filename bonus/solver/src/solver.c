@@ -103,7 +103,7 @@ int8_t solver(ctrl_t *control, sfRenderWindow *window)
     if (control->maze[1][1] == '*' && try_da_way(control, 1, 1, window, tab) == 0) {
         display(control, window, tab);
         sfRenderWindow_display(window);
-        print_maze(control->maze);
+//        print_maze(control->maze);
     } else {
         printf(NOWAY_MSG);
         solved = 1;
